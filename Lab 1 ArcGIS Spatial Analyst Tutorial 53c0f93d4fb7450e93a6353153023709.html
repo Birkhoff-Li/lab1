@@ -1,0 +1,632 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Lab 1: ArcGIS Spatial Analyst Tutorial </title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="64de14a0-843b-4690-9d7b-c4bbd4f57b52" class="page serif"><header><h1 class="page-title">Lab 1: ArcGIS Spatial Analyst Tutorial </h1></header><div class="page-body"><h2 id="1f5a5e27-c5cd-4c5a-ac09-be78808aa9a7" class="">Exercise 1: Preparing for analysis</h2><p id="ed9c9244-b37a-4e37-9212-c061fe897d08" class="">A new geodatabase named &quot;Scratch&quot; is made besides the current existence geodatabase; to prevent accidental data damage to the original files. The new geodatabase is simply a duplicated  version of the original database through manual layer copy. </p><p id="38984094-521d-4bd9-a351-3fec4151cd75" class="">The initial data are accessed through the <em>About the ArcGIS Spatial Analyst extension Tutorial.</em></p><figure id="53c0f93d-4fb7-450e-93a6-353153023709" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/pngbase64f89944e916b1dac9.png"><img style="width:480px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/pngbase64f89944e916b1dac9.png"/></a><figcaption>Figure 1. All initial layer provided by the <em>About the ArcGIS Spatial Analyst extension</em> Tutorial by ArcGIS</figcaption></figure><p id="23779848-9b75-4a2f-b25d-f93e87c5691b" class=""> </p><blockquote id="65466564-14ea-4155-a285-4d7144e70166" class=""><strong><em>Disclaimer: This specific image is taken fromw the sample lab report provided by the course instructor, created by Haineault Myriam. The original dataset include: Roads, destination, recreation sites, schools, land use and elevation; which land use layer is displayed with a 50% transparency. </em></strong></blockquote><h2 id="88bf90ba-a74a-474d-ba8f-deab3ba721cc" class="">Exercise 2: Better understanding to geological feature of the working area through varies tools</h2><figure id="228bfeb1-6994-4b82-985e-6a03262d9136" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/HillshapeOutcome.png"><img style="width:1764px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/HillshapeOutcome.png"/></a><figcaption>Figure 2. Final product of the <em>Hillshade</em> process. </figcaption></figure><p id="1cf5f6b1-c440-4a98-932a-5897c8a8db19" class="">The elevation raster data was used to generated the <em>Hillshade</em> in this graph. First, the &quot;Spatial Analysis&quot; extension is enable to use the <em>Hillshade tool </em>that are mentioned above. Detail <em>*Hillshade* </em>setting are posted below: </p><figure id="56738f26-050e-4ec3-b6a9-0935ade13a50" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/HillshapeSetting.png"><img style="width:2249px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/HillshapeSetting.png"/></a><figcaption>Figure 3. Hillshade setting </figcaption></figure><p id="3d42d551-1ce8-461c-b283-e73a60d4e61e" class="">In order for the better illustration prepose, the newly generation <em>Hillshade</em> layer are set with a transparency of 30%. </p><h3 id="6d9e229e-ba91-4a39-88a6-429a98a40e26" class="">Examination on the land use composition for land use. </h3><p id="89407835-2dc8-471e-972d-89e2f3b6026a" class="">Through the utilization of the <em>Spatial Analyst</em> tool bar, and selecting to the specific layer(in this case: <em>landuse</em>); through its <em>Histogram</em> generation function, the histogram is displayed. </p><figure id="46e8b514-f78d-4c94-a64d-d567f1da926c" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Histogram.png"><img style="width:1003px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Histogram.png"/></a><figcaption>Figure 4. Land use overuse through histogram </figcaption></figure><h2 id="2822ec86-818a-4ea3-be52-f03e91fa32c4" class="">Finding a site for a new school through ModelBuilder framework </h2><p id="751e8d0a-83b9-447c-94f2-8ce27c8f4349" class="">&quot;ModelBuilder&quot; is a self-contained framework from <em>ArcGis</em> to create a general geoprocessing workflow, this specific framework is hugely used for automation of spatial analysis and data management process. </p><h3 id="59a2bf74-403b-44c4-9659-c14de033c6ed" class="">Environment setting about the model builder. </h3><figure id="cf4468e9-8fda-42d6-92b4-d7debbd95ab9" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/ModelBuilderSetUp.png"><img style="width:941px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/ModelBuilderSetUp.png"/></a><figcaption>Figure 5. Model builder environment setting </figcaption></figure><p id="5e02cbde-6ed5-4d85-9ee5-65a9fa841923" class="">Name, label, and the setting on &quot;Store relative path name&quot; are selected. Also for the environment setting following items are override. </p><figure id="da425f15-5371-4006-9381-3eb893a0c10b" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Envrionemnt_.png"><img style="width:776px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Envrionemnt_.png"/></a><figcaption>Figure 6. Override settings </figcaption></figure><p id="d9103acf-cc74-454c-8cfa-3cee42286130" class="">For the values setting in the <em>Environment Setting</em>, both <em>Processing extent</em> and <em>Raster Analysis</em> are set to be same as the elevation layer.   </p><figure id="b2db8a1e-54d0-43f3-8f32-f0fb898317fc" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled.png"><img style="width:1210px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled.png"/></a><figcaption>Figure 7. Value setting </figcaption></figure><h2 id="607910e1-8fbd-4667-8f95-df5921c21125" class="">Exercise 3: Finding the optimal site through spatial analysis. </h2><h3 id="50eaaf9e-5fac-43a8-9ab5-c01acbabdf8c" class="">Calculation for current school, recreation site, and slope distribution in the target area. </h3><p id="fae5b32b-b9af-4247-959d-95d820ae1084" class="">Three target layer were introduced in this step of model:</p><ul id="91ec739a-e808-42e7-a51a-83f2601fa71d" class="bulleted-list"><li><em>school</em> </li></ul><ul id="3aaae9f2-847d-41fe-8bf0-da7f63925b1a" class="bulleted-list"><li> <em>rec_site</em> (i.e.: recreation site)</li></ul><ul id="c3ea16ea-19e0-4c74-adfe-2d7ab876e631" class="bulleted-list"><li><em>elevation</em></li></ul><p id="f8eb248c-653d-440c-833a-c0d7d09b2d04" class="">And two tools from the *Spatial Analyst Tools* toolbox are used.</p><ul id="3804bca9-bd40-474f-923c-be3976c0c97e" class="bulleted-list"><li>Euclidean Distance (Distance tool set)</li></ul><ul id="704c9edb-1b5b-48df-9f48-e6d9e9ab8340" class="bulleted-list"><li>Slope (Spatial Analyst Surface)</li></ul><p id="76f75d4c-f43d-4a75-b3bd-119bd09adda3" class="">The above tools are connect to the target layer by the following fashion: </p><figure id="67792f9c-3d12-401c-ae21-c049fb32a634" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/FingSchoolArch.png"><img style="width:3584px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/FingSchoolArch.png"/></a><figcaption>Figure 8. Modelbuilder setting for distance and slope calculation </figcaption></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="48736ded-f5b2-4228-918e-734c2230fccc"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">For the slope tool, the <em>Z factor</em> are set to 0.3048 and the <em>Output measurement</em> are made to DEGREE </div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="55d24b3c-196c-421d-bdb1-b9b94f5186f3"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">For the distance calculation for both school and recreation site, the default setting from the tool are used. </div></figure><p id="e9f4136c-7851-40e6-85e4-947dae2c14e4" class="">
+</p><p id="ee161106-c837-4d47-97af-2a550c2ceaf3" class="">The output of the current school, recreation site and slop distribution is illustrated as following: </p><figure id="e2102deb-3396-402c-8234-3f863afdbe38" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Snaping.png"><img style="width:1759px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Snaping.png"/></a><figcaption>Figure 9.a. Slope output map (Reclassed to 10 interval) </figcaption></figure><figure id="1bfa2ee9-7dd7-4e31-a446-877dc8e3da9e" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/ReclassRec.png"><img style="width:1747px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/ReclassRec.png"/></a><figcaption>Figure 9.b. Distance from recreation site (Reclassed to 10 interval)</figcaption></figure><p id="55baf3ba-5fb8-45da-9674-c79cfedffedc" class="">
+</p><figure id="38d87231-6cd8-4025-acda-645462d7b7ed" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/SchoolDis.png"><img style="width:1756px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/SchoolDis.png"/></a><figcaption>Figure 9.c. Distance from schools map (Reclassed to 10 interval)</figcaption></figure><h3 id="bead3446-e334-47ba-b1a7-21bdd5b0e5ec" class="">Reclass process for future evaluation propose. </h3><p id="6ee86c61-57cb-4ce9-a242-ae54a10a4f52" class="">A man made evaluation index is made for the future evaluation, the <em>reclass</em> function in the <em>Spatial Analyst Tools toolbox - Reclass toolset</em> is used to assign those man made evaluation index. </p><p id="441fecec-7e4c-4c0e-bb11-ae970b4a3653" class="">In my case, the evaluation index are started from 0 to 10. The higher values will be given to attributes that are more suitable for building a school. </p><p id="bbb5f331-6bfc-41af-a722-e457892f0526" class=""><strong>Following evaluation criteria is used:</strong></p><ul id="d3a9fefa-be2a-44d2-a5e7-1c5c87ccd48c" class="bulleted-list"><li>The slope should be in a low level </li></ul><ul id="a977d1b2-aa3f-4aa2-8e67-873fbde8770f" class="bulleted-list"><li>It should close to the recreation site</li></ul><ul id="a231f371-4891-43dc-9235-8318cb48475c" class="bulleted-list"><li>It should far away from the current school</li></ul><p id="62415e3f-87c6-455a-a57f-8addd57a135e" class="">The model builder is arranged into the following fashion:</p><figure id="3c48d435-d995-4939-b232-1b0283bf555d" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/ModelOverView.png"><img style="width:2100px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/ModelOverView.png"/></a><figcaption>Figure 10. Model setting for reclass propose</figcaption></figure><p id="0a162192-11d4-4c9b-8f15-d5b6f4e3bf61" class="">All three input raster are reclassed using the *Equal Interval* method, and broke down the 10 classes. For the slope and recreation site process, the new values assigned from reclassification  are reversed, since the smaller value means a more suitable environment of school building. </p><figure id="d710810e-93e9-4dae-955b-9bbaa3d4d6ef" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/SlopeNewClass.png"><img style="width:1250px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/SlopeNewClass.png"/></a><figcaption>Figure 11. The detail about classification </figcaption></figure><h3 id="8d57767e-8ee7-47e2-b63a-47def31f1494" class="">Weighted and combing the current dataset</h3><p id="fd5f2c6c-6e0b-4125-9b67-55f3e38e23f0" class="">Following percentage of influence was decided on all above three area(school, slope, recreation site). 
+</p><ul id="e7432ea6-c334-4714-b3d2-51b937eb0f62" class="bulleted-list"><li>Distance to recreation site: 50% </li></ul><ul id="32c57d29-46ff-4199-94a4-7006ef8bfa41" class="bulleted-list"><li>Distance to school: 25% </li></ul><ul id="49883855-8790-4d9e-a463-5d27c385b47f" class="bulleted-list"><li>Slope: 13% </li></ul><ul id="8c496b9a-8732-4216-af37-53dc21ce767f" class="bulleted-list"><li>Landuse: 12% <figure id="022135ff-d8a1-483f-bbbe-bed98f1177dc" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Weighted.png"><img style="width:1484px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Weighted.png"/></a><figcaption>Figure 12. Weighted overlay composition </figcaption></figure><p id="b740e7b0-34fe-46a5-85e8-868608adc960" class="">
+</p></li></ul><p id="693a961e-0d2f-4e69-80c3-1c26a6660f7b" class="">The original evaluation scales are changed from &quot;1 to 9 by 1&quot; to &quot;1 to 10 by 1&quot;. </p><p id="61bc1ade-4d72-42de-86b1-db0858a52791" class="">Due to limitation on construction, certain slope could not to use for building a school, a restriction was made on <em>Reclassed slope</em> that has evaluation value from 1 to 3. </p><figure id="906775f0-cda4-44d6-98af-30abd463d9fb" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/SlopeRestriction.png"><img style="width:1490px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/SlopeRestriction.png"/></a><figcaption>Figure 13. Details on the restricted value setting </figcaption></figure><p id="24a64193-1c77-4345-8c60-9b366774dbe3" class="">Similar process was used for land use, too. Water, Wetlands are restricted during the evaluation. And the evaluation index for landuse are assigned by following: </p><ul id="5defe606-8219-41ec-9a08-334ae6247eff" class="bulleted-list"><li>Brush/transitional : 5</li></ul><ul id="60da07ee-0450-4bc2-a493-0954d30f4e79" class="bulleted-list"><li>Barren land: 10 </li></ul><ul id="c052a4ce-6d38-46c8-a85d-cb2d399ccf92" class="bulleted-list"><li>Built up: 3</li></ul><ul id="2eb94289-6ea6-442b-818f-adde88532078" class="bulleted-list"><li>Agriculture: 9 </li></ul><ul id="e03cacc8-80fe-4520-bfcb-e14e7e00e211" class="bulleted-list"><li>Forest: 4 </li></ul><p id="29714bf3-2ac0-4be5-ae4e-fa5a6e9c8f61" class="">The overlay process outcome is followed: </p><figure id="1757eb9f-5083-4e66-a6ab-cd0ef55a9c34" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WeightedOverlay.png"><img style="width:3840px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WeightedOverlay.png"/></a><figcaption>Figure 14. General outcome of the evaluation map </figcaption></figure><h3 id="575237e8-22b3-417f-906a-32ddc40b30d9" class="">Extraction of optimal site from the evaluation map </h3><p id="5bc25032-dc8e-4db1-b282-177d015ec112" class="">Through utilizing <em>Con</em> tool, we could extract the highest graded area from our evaluation map for further process. </p><p id="cce22c48-9d09-487e-83ce-9ed63aa16fc3" class="">The model is set up in the following fashion: </p><figure id="9036efa8-985b-4202-b6fd-a2fb7b569567" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Con.png"><img style="width:1830px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Con.png"/></a><figcaption>Figure 15. Evaluation map extraction model setting </figcaption></figure><p id="df362deb-689d-4f87-b2ab-5dd43855b3ae" class="">The following setting was used to process the <em>Con</em> tool: </p><figure id="948b38c1-0e15-431e-9d4c-ceeacf6ec3f6" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1741312x.png"><img style="width:1298px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1741312x.png"/></a><figcaption>Figure 16. Con tool setting detail </figcaption></figure><p id="5c44a932-320f-44bb-9788-1c78170f15f3" class="">It needs to point out that, from the current version Arcmap (version 10.7.1), the automatic quarry generation tool has missed the &quot; sign during its generation. Hence, manual alteration is needed to proceeded.  </p><p id="fc4c6479-69fb-4198-abc4-3e506e9adbef" class="">After the <em>Con</em> process, all areas with a 9 evaluation index(which is the highest) was selected. </p><figure id="e04661d8-1306-43dd-b2b0-b2b73a20c04d" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1747302x.png"><img style="width:2652px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1747302x.png"/></a><figcaption>Figure 17. The selected area are the highlighted area, red circled area, and the blue colour filled area. </figcaption></figure><p id="6562b56c-cd1a-4268-bb34-21eea821d3d7" class="">However, the continuity of selected area some time are inconsonance, which means there could be hollow inside of a selected area. Hence, a majority filter is used to illuminated the above scenario. The setting of the majority filter are set to be as followed: </p><figure id="159c7e35-6340-4990-955b-29c61922b9c5" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1756282x.png"><img style="width:1298px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1756282x.png"/></a><figcaption>Figure 18. Majority filter detail setting </figcaption></figure><h2 id="3d3bbd17-0659-4260-aca9-c8d341e2d0db" class="">Further elimination based on the interaction with the road network</h2><p id="770bbbe8-0fd6-422d-b7c4-966d3480d90e" class="">As any school in reality, this newly build school needs to connected to a road network. Hence, further illumination of non road connected area of the resulted area is process through the <em>Selected layer by Location</em> tool box inside the <em>Data Management Tool</em>, the selection process&#x27;s setting is as followed:</p><figure id="ccf15c18-6940-44e7-b2d4-f0f80aecea2a" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/SelectLayerSetting.png"><img style="width:1490px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/SelectLayerSetting.png"/></a><figcaption>Figure 19. Select layer by location setting </figcaption></figure><p id="b6bdd78e-430d-4d17-8d11-db63292b4223" class="">*Note: in this case the <em>selecting features</em> are set to the <em>road</em> shapefile. </p><h3 id="5da3a153-99e8-44c7-8bc2-307f3f1d16e2" class="">Further selection based on the area size. </h3><p id="44f6d319-5366-469a-ae3d-742c86db7b12" class="">Toward authors notice that certain selected area doesn&#x27;t have sufficient space for school, hence a selection based on the area size is conducted based on the Attribute query. The <em>Select Layer By Attribute tool</em> is set to complete the quest. The setting of the Attribute query are shown as followed :</p><figure id="5249fe4d-4047-490f-bbdd-63a5f8d48292" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1818482x.png"><img style="width:1292px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1818482x.png"/></a><figcaption>Figure 20. Select layer by attribute setting </figcaption></figure><p id="acdc6e7e-def8-4418-a273-35271abd6137" class="">*Note: don&#x27;t forget the &quot; symbol around the <em>Shape_Area</em></p><h3 id="63bbf938-6149-4dfc-84ff-1a72c1abcf7d" class="">Saving final result as an individual shapefile </h3><p id="8abde800-fb6a-4bae-bd93-e0e33c41b953" class="">After the undersize area has been eliminated, optimal site for the new school has shown up. The result were being export from a selected part of shapefile towards an individual shapefile through the usage of the <em>Copy Features tool</em> in the  <em>Data Management toolbox.  </em></p><p id="b5abdaea-ca5d-4d25-9acf-93a721a6b4ce" class="">And the final result layer are saved into the <em>Stowe.gdb</em> geodatabase. The optimal site are shown in the following picture as the blue highlighted area. </p><figure id="ee2dfaf7-8e13-47cd-89bd-960ecf2831e9" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1745162x.png"><img style="width:2560px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1745162x.png"/></a><figcaption>Figure 20. Optimal site (shown in the blue highlighted area)</figcaption></figure><h2 id="4d45be7f-180c-4b79-a812-bbc4d3ee2084" class="">Exercise 4: Finding an alternative road  </h2><p id="21267be0-2965-428d-ab56-06dbaadbe8b7" class=""> </p><p id="377611eb-17c6-487f-8a44-8848c0511441" class="">Similar techniques from <em>Exercise 1, 2, 3</em> were used to find an alternative road based on the suitability model that were included in the ArcGIS software. </p><h3 id="c386fa37-d1de-46ef-bf46-9850e3d49c69" class="">Step 1: Create a new model </h3><p id="c8656928-77f3-41f0-b38c-c24f8cf7b239" class="">A new model was created, override environment setting, value settings are identical to the <strong>Exercise 2 - Environment setting about the model builder</strong> </p><h3 id="5486d5f2-3a66-411b-834d-043fecda3a11" class="">Step 2: Create a cost dataset </h3><p id="c980d698-6717-4865-8e42-e1c50a96bd0c" class="">The cost data&#x27;s input includes the <em>Slope Output</em> and <em>landuse</em> two layer that were perviously generated in the pervious step. The <em>Slope Output</em> were went through an identical process from the pervious steps. Then a *Weighted Overlay* layer function were used in the to combine both land use and the <em>Slope Output</em> together, toward a final outcome for the cost. </p><p id="457b3248-4bca-45d1-b5bd-45ed70169be2" class="">The model is set into the following manner: </p><figure id="3972b8ca-3d2b-4960-aa80-8e23963199e7" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/CostPath.png"><img style="width:2194px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/CostPath.png"/></a><figcaption>Figure 21. The general cost model </figcaption></figure><p id="b33255b4-870a-4457-bf44-e575f7a2a063" class="">The reclassify steps and process are identical toward <strong>Reclassification towards further evaluation process. </strong>(Equal interval, 10 class) </p><p id="1a8b0ff9-98f3-48bb-bc18-809484a79c8b" class="">The weighted overlay setting are switched from a default scale (1 to 9 by 1) towards a new scale (1 to 10 by 1), following scale value are generated: </p><p id="6f46f468-699d-4399-b6be-bf657a9ebf93" class=""> </p><ul id="fa5cc2f7-eafa-4398-a168-1037678ab3d4" class="bulleted-list"><li>Brush/transitional - 5 </li></ul><ul id="88877554-546b-4aae-8b60-af6fcbe64ed0" class="bulleted-list"><li>Water - 10</li></ul><ul id="de92bd28-97e7-4218-baf2-68edb5a57a14" class="bulleted-list"><li>Barren land - 2 </li></ul><ul id="32dd0b66-6062-42b2-aeeb-ba31ad848775" class="bulleted-list"><li>Built up - 9 </li></ul><ul id="347e2074-e61b-4a8b-9fbf-43366592aa62" class="bulleted-list"><li>Agriculture - 4 </li></ul><ul id="31a4b09f-be1b-4323-b4ed-8ae8c541e524" class="bulleted-list"><li>Forest - 8 </li></ul><ul id="bd4e09ce-9a2b-4cfc-82b1-2d1e6a2317b0" class="bulleted-list"><li>Wetlands - 10 </li></ul><figure id="74ceff82-9e11-4a42-8d53-b69bcaf1278e" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1955222x.png"><img style="width:1294px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/WX20210119-1955222x.png"/></a><figcaption>Figure 22. General detail on weighted overlay  </figcaption></figure><figure id="fcb935ea-9f50-4037-90b5-77f01836e180" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%201.png"><img style="width:898px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%201.png"/></a><figcaption>Figure 23. Total composition on the different raster. </figcaption></figure><p id="efd7f4e6-3fb5-4d1c-a5a7-5c6326daf62e" class="">The weighted <em>Cost surface</em> were generated as followed:</p><figure id="285bbeab-de81-4cea-b34e-0550c2e272b0" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%202.png"><img style="width:1548px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%202.png"/></a><figcaption>Figure 24. Weighted cost surface</figcaption></figure><h3 id="dda80871-6856-4162-9a89-4289bc3fb9d1" class="">Step 3: Finding the least costly path</h3><p id="8ec92320-42bb-480c-82df-9fd52e0dc017" class=""> In order to quantified the cost for building a road from our optimal school location to any location in the map, the *Cost distance* tool were used to generated a <em>Output distance raster.  </em></p><p id="9fec7d52-347b-491d-9e84-85ae4d02edcb" class="">The model is set up as followed: </p><p id="03e4d973-49da-4670-8b2d-88148b7b0e2f" class="">  </p><figure id="0c4949ae-9059-4d11-a858-91d992adfc28" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/CostPath%201.png"><img style="width:2194px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/CostPath%201.png"/></a><figcaption>Figure 25. General model setup </figcaption></figure><p id="f8611e3e-bb1e-4248-a0a1-c1e0fb864a9a" class="">The cost distance is set up in the following manner: </p><figure id="15a2d9b2-5fda-4214-9274-318f02649db2" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%203.png"><img style="width:1296px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%203.png"/></a><figcaption>Figure 26. Cost distance setup </figcaption></figure><p id="4724dffc-d00b-409f-824f-16cef510a7d5" class="">The cost path is set up in the following manner: </p><figure id="8fafd4e6-7643-4f3c-ba43-d8c37ea19d7c" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%204.png"><img style="width:1302px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%204.png"/></a><figcaption>Figure 27. Cost path setup </figcaption></figure><h3 id="fae686e2-df0c-4b41-b27c-16986164a6e3" class="">Converting the final result to a polyline </h3><p id="6b944ae0-f083-4f85-ac13-3c7a0e08c289" class="">Since we are talking about a road, hence it is better to convert the road from a raster toward a polyline for further usage. Hence the <em>Raster to Polyline</em> tool is used. The setting of the conversion are in following manner: </p><figure id="8eb5b583-effd-450c-a7c6-6db534a6262b" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%205.png"><img style="width:1296px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%205.png"/></a><figcaption>Figure 28. General raster to polyline setup </figcaption></figure><p id="68339c51-dafd-4064-9e9b-da477cbe72c3" class="">The final result are shown as followed in blue highlighted: </p><figure id="ea910298-bf59-4d87-bb7b-cbcdf98003eb" class="image"><a href="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%206.png"><img style="width:1910px" src="Lab%201%20ArcGIS%20Spatial%20Analyst%20Tutorial%2053c0f93d4fb7450e93a6353153023709/Untitled%206.png"/></a><figcaption>Figure 29. Final result of the lab. </figcaption></figure><p id="9e2bbe2e-460b-4b68-adca-2cf9268120eb" class="">
+</p></div></article></body></html>
